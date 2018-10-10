@@ -30,7 +30,7 @@ namespace KatlaSport.DataAccess.Migrations
         public Configuration()
         {
             ContextKey = "ApplicationData";
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = false;
             SetSqlGenerator("System.Data.SqlClient", new CustomSqlServerMigrationSqlGenerator());
         }
