@@ -3,6 +3,7 @@ export class ProductCategoryProductListItem {
         public id: number,
         public code: string,
         public name: string,
-        public isDeleted: boolean
+        public isDeleted: boolean,
+        public lastUpdated: Date
     ) { }
 }
