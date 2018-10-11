@@ -29,3 +29,5 @@ export class HiveListComponent implements OnInit {
   onRestore(hiveId: number) {
   }
 }
+
+// step_6_finished
