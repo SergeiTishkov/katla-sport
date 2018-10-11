@@ -20,11 +20,9 @@ namespace KatlaSport.DataAccess
             _entitySetCache = CreateEntitySetCache(dbContext);
         }
 
-        public async Task<int> SaveChangesAsync() => await _dbContext.SaveChangesAsync();
+        public Task<int> SaveChangesAsync() => _dbContext.SaveChangesAsync();
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken) => await _dbContext.SaveChangesAsync(cancellationToken);
-
-        public void SaveChanges() => _dbContext.SaveChanges();
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken) => _dbContext.SaveChangesAsync(cancellationToken);
 
         protected IEntitySet<TEntityType> GetDbSet<TEntityType>()
             where TEntityType : class
