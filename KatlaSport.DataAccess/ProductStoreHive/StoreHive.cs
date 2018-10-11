@@ -31,7 +31,7 @@ namespace KatlaSport.DataAccess.ProductStoreHive
         /// <summary>
         /// Gets or sets a value indicating whether a hive is deleted.
         /// </summary>
-        public virtual bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// Gets or sets a creator's identifier.

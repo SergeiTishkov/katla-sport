@@ -123,8 +123,13 @@ namespace KatlaSport.Services.HiveManagement
                 throw new RequestedResourceNotFoundException();
             }
 
-            dbHive.IsDeleted = deletedStatus;
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            if (dbHive.IsDeleted != deletedStatus)
+            {
+                dbHive.IsDeleted = deletedStatus;
+                dbHive.LastUpdated = DateTime.UtcNow;
+                dbHive.LastUpdatedBy = _userContext.UserId;
+                await _context.SaveChangesAsync().ConfigureAwait(false);
+            }
         }
     }
 }

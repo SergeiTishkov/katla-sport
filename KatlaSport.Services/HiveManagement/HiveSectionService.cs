@@ -31,7 +31,7 @@ namespace KatlaSport.Services.HiveManagement
         /// <inheritdoc/>
         public async Task<List<HiveSectionListItem>> GetHiveSectionsAsync()
         {
-            var dbHiveSections = await _context.Sections.OrderBy(s => s.Id).ToArrayAsync();
+            var dbHiveSections = await _context.Sections.OrderBy(s => s.Id).ToArrayAsync().ConfigureAwait(false);
             var hiveSections = dbHiveSections.Select(s => Mapper.Map<HiveSectionListItem>(s)).ToList();
             return hiveSections;
         }
@@ -39,7 +39,7 @@ namespace KatlaSport.Services.HiveManagement
         /// <inheritdoc/>
         public async Task<HiveSection> GetHiveSectionAsync(int hiveSectionId)
         {
-            var dbHiveSections = await _context.Sections.Where(s => s.Id == hiveSectionId).ToArrayAsync();
+            var dbHiveSections = await _context.Sections.Where(s => s.Id == hiveSectionId).ToArrayAsync().ConfigureAwait(false);
             if (dbHiveSections.Length == 0)
             {
                 throw new RequestedResourceNotFoundException();
@@ -51,7 +51,7 @@ namespace KatlaSport.Services.HiveManagement
         /// <inheritdoc/>
         public async Task<List<HiveSectionListItem>> GetHiveSectionsAsync(int hiveId)
         {
-            var dbHiveSections = await _context.Sections.Where(s => s.StoreHiveId == hiveId).OrderBy(s => s.Id).ToArrayAsync();
+            var dbHiveSections = await _context.Sections.Where(s => s.StoreHiveId == hiveId).OrderBy(s => s.Id).ToArrayAsync().ConfigureAwait(false);
             var hiveSections = dbHiveSections.Select(s => Mapper.Map<HiveSectionListItem>(s)).ToList();
             return hiveSections;
         }
@@ -59,7 +59,19 @@ namespace KatlaSport.Services.HiveManagement
         /// <inheritdoc/>
         public async Task SetStatusAsync(int hiveSectionId, bool deletedStatus)
         {
-            throw new NotImplementedException();
+            var dbSection = await _context.Sections.FirstOrDefaultAsync(p => p.Id == hiveSectionId).ConfigureAwait(false);
+            if (dbSection == null)
+            {
+                throw new RequestedResourceNotFoundException();
+            }
+
+            if (dbSection.IsDeleted != deletedStatus)
+            {
+                dbSection.IsDeleted = deletedStatus;
+                dbSection.LastUpdated = DateTime.UtcNow;
+                dbSection.LastUpdatedBy = _userContext.UserId;
+                await _context.SaveChangesAsync().ConfigureAwait(false);
+            }
         }
     }
 }
