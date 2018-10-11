@@ -5,6 +5,6 @@ export class ProductCategoryListItem {
         public code: string,
         public productCount: number,
         public isDeleted: boolean,
-        public lastUpdated: Date
+        public lastUpdated: Date,
     ) { }
 }
