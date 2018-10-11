@@ -11,7 +11,7 @@ namespace KatlaSport.DataAccess
         where TDbContext : DbContext
     {
         private readonly ApplicationDbContext _dbContext;
-        private EntitySetCacheItem[] _entitySetCache;
+        private readonly EntitySetCacheItem[] _entitySetCache;
 
         public DomainContextBase(ApplicationDbContext dbContext)
         {
